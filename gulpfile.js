@@ -1,14 +1,14 @@
 var gulp = require("gulp");
 
 var src = {
-    js : "./client/js/**/*.{js,html}",
-    sass : "./client/sass/*"
+    js : "./app/js/**/*.{js,html}",
+    sass : "./app/sass/*"
 };
 // js
 var browserify = require("gulp-browserify"),
     uglify = require("gulp-uglify");
 gulp.task("js", function() {
-    gulp.src("./client/js/app.js")
+    gulp.src("./app/js/app.js")
     .pipe(browserify({
         // debug : true,
         transform: ["node-underscorify"],
@@ -24,7 +24,7 @@ gulp.task("css", function(){
     gulp.src(src.sass)
     .pipe(compass({
         css : "public/css",
-        sass: "client/sass"
+        sass: "app/sass"
     }))
     .pipe(minifyCSS())
     .pipe(gulp.dest("public/css"));

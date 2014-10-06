@@ -2,9 +2,9 @@ var $ = require("jquery"),
     moment = require("moment"),
     B = require("backbone");
 B.$ = $;
-var template = require("./templates/chat.html");
-var vent = require("./vent");
-var ChatModel = require("./ChatModel");
+var template = require("../templates/chat.html");
+var vent = require("../lib/vent");
+var ChatModel = require("../models/ChatModel");
 
 var urlMatcher = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))/gi;
 var imgMatcher = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)(\.jpge?|\.png|\.gif))/gi;

@@ -11,7 +11,7 @@ var app = express();
 
 app.set('port', process.env.PORT || 3000);
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
-var io = require("./io").listen(server);
+var io = require("./server/io").listen(server);
 
 app.use('/', routes);
 

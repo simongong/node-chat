@@ -1,8 +1,8 @@
 var $ = require("jquery"),
     B = require("backbone");
 B.$ = $;
-var template = require("./templates/login.html");
-var vent = require("./vent");
+var template = require("../templates/login.html");
+var vent = require("../lib/vent");
 
 var LoginView = B.View.extend({
     id : "login",

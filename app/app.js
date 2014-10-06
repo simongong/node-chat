@@ -1,9 +1,9 @@
 var $ = require("jquery"),
     B = require("backbone");
 B.$ = $;
-var LoginView = require("./LoginView");
-var ChatView = require("./ChatView");
-var vent = require("./vent");
+var LoginView = require("./views/LoginView");
+var ChatView = require("./views/ChatView");
+var vent = require("./lib/vent");
 
 var AppView = B.View.extend({
     el : $("#wrapper"),

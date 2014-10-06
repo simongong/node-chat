@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var redis = require("../redis");
+var redis = require("../server/redis");
 
 /* GET home page. */
 router.get('/', function(req, res) {
