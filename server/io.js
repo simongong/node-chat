@@ -3,6 +3,9 @@ var crypto = require('crypto');
 var validator = require('validator');
 var redis = require("./redis");
 
+/*
+    Server socket manager
+*/
 module.exports.listen = function(app) {
     var io = sio.listen(app);
     var getMembers = function(room){
@@ -20,18 +23,17 @@ module.exports.listen = function(app) {
         return hash;
     };
 
+    // Waiting for a connection from client which is represented by `socket`
     io.sockets.on('connection', function (socket) {
         socket.hash = getHash(socket.handshake.address.address);
-        socket.on('room', function(room) {
-            // leaving room
-            if(socket.room) {
+        socket.on('room', function(room) {  // Client emits a `room` event when entering a room
+            if(socket.room) {   // First, make client leave its current room, if exits
                 socket.leave(socket.room);
                 io.sockets.in(socket.room).emit("updateMember", getMembers(socket.room));
             }
-            // enter room
             socket.room = room;
-            socket.join(room);
-            socket.emit("room", room);
+            socket.join(room);  // Set a namespace for this socket
+            socket.emit("room", room);  // Trigger client's `room` event when the room is available
             io.sockets.in(socket.room).emit("updateMember", getMembers(socket.room));
 
             // get message
@@ -62,7 +64,7 @@ module.exports.listen = function(app) {
                 data.username = socket.username;
                 data.hash = socket.hash;
                 data.time = new Date().getTime();
-                io.sockets.in(socket.room).emit("message", data);
+                io.sockets.in(socket.room).emit("message", data);   // emit message to users in this room, including the sender
                 data.ip = socket.handshake.address.address;
                 redis.lpush("message:" + socket.room, [JSON.stringify(data)], function(err, res){
                     if(err) console.log(err);

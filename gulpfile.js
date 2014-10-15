@@ -1,14 +1,14 @@
 var gulp = require("gulp");
 
 var src = {
-    js : "./app/js/**/*.{js,html}",
+    js : "./app/**/*.{js,html}",
     sass : "./app/sass/*"
 };
 // js
 var browserify = require("gulp-browserify"),
     uglify = require("gulp-uglify");
 gulp.task("js", function() {
-    gulp.src("./app/js/app.js")
+    gulp.src("./app/app.js")
     .pipe(browserify({
         // debug : true,
         transform: ["node-underscorify"],

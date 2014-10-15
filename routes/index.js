@@ -1,3 +1,8 @@
+/*
+    Routing of the app. 
+    Just do routing
+*/
+
 var express = require('express');
 var router = express.Router();
 var redis = require("../server/redis");
@@ -14,7 +19,7 @@ router.get('/', function(req, res) {
         if(result == 1) {
             res.send("you are banned!");
         } else {
-            res.render('index');
+            res.render('index');    // Kick off `app/index.jade` rendering
         }
     });
 });

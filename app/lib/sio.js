@@ -1,3 +1,7 @@
+/*
+  A client socket.io manager for models
+*/
+
 var sio = {};
 
 sio.connect = function () {

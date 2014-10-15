@@ -20,29 +20,28 @@ var ChatView = B.View.extend({
         "click .msg-name": "replyTo",
     },
     initialize: function(data) {
-        var self = this;
         this.model = new ChatModel(data);
         this.listenTo(this.model, "change:ready", function(){
-            self.render({username:this.model.get("username")});
-        });
+            this.render({username:this.model.get("username")});
+        }.bind(this));
         this.listenTo(this.model, "change:new_msg", function(){
-            self.addMessage(self.model.get("new_msg"));
-        });
+            this.addMessage(this.model.get("new_msg"));
+        }.bind(this));
         this.listenTo(this.model, "change:room", function(){
-            var room = self.model.get("room");
-            self.onRoomChange(room);
-        });
+            var room = this.model.get("room");
+            this.onRoomChange(room);
+        }.bind(this));
         this.listenTo(this.model, "change:members", function(){
-            var members = self.model.get("members");
-            self.updateMember(members);
-        });
+            var members = this.model.get("members");
+            this.updateMember(members);
+        }.bind(this));
         this.listenTo(this.model, "change:messages", function(){
-            var messages = self.model.get("messages");
-            self.$("#message").empty();
+            var messages = this.model.get("messages");
+            this.$("#message").empty();
             messages.reverse().forEach(function(message){
-                self.addMessage(message);
-            });
-        });
+                this.addMessage(message);
+            }.bind(this));
+        }.bind(this));
     },
     render : function(data) {
         this.$el.html(template(data));

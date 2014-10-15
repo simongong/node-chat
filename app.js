@@ -11,7 +11,7 @@ var app = express();
 
 app.set('port', process.env.PORT || 3000);
 // view engine setup
-app.set('views', path.join(__dirname, 'app/views'));
+app.set('views', path.join(__dirname, 'app'));
 app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -24,6 +24,7 @@ var server = app.listen(app.get('port'), function() {
 });
 var io = require("./server/io").listen(server);
 
+// Delegata routing to `./routes/index`
 app.use('/', routes);
 
 app.get("/user_count", function(req, res){
@@ -44,22 +45,43 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        var status = err.status || 500;
+        res.status(status);
+        switch(status){
+            case 404:
+                res.render('404', {   // Kick off `app/404.jade` rendering
+                    message: err.message,
+                    error: {}
+                });
+                break;
+            default:
+                res.render('error', {   // Kick off `app/error.jade` rendering
+                    message: err.message,
+                    error: err
+                });
+                break;
+        }
     });
 }
 
 // production error handler
-// no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+    var status = err.status || 500;
+    res.status(status);
+    switch(status){
+        case 404:
+            res.render('404', {   // Kick off `app/404.jade` rendering
+                message: err.message,
+                error: {}
+            });
+            break;
+        default:
+            res.render('error', {   // Kick off `app/error.jade` rendering
+                message: err.message,
+                error: err
+            });
+            break;
+    }
 });
 
 module.exports = app;
